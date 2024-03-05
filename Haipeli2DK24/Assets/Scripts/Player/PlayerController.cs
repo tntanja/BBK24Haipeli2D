@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     private Master controls;
     private Vector2 moveInput;
 
+    public Transform gunTransform;
+
     private void Awake() {
         controls = new Master();
         body = GetComponent<Rigidbody2D>();
@@ -34,5 +36,16 @@ public class PlayerController : MonoBehaviour
         moveInput = controls.Player.Move.ReadValue<Vector2>();
         Vector2 movement = new Vector2(moveInput.x, moveInput.y) * moveSpeed * Time.fixedDeltaTime;
         body.MovePosition(body.position + movement);
+    }
+
+    private void Update() {
+        Shoot();
+    }
+
+    private void Shoot() {
+        if (controls.Player.Shoot.triggered){
+            //Debug.Log("ammu nappula toimii");
+            GameObject bullet = BulletPoolManager.Instance.GetBullet();
+        }
     }
 }
