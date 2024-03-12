@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     private Master controls;
     private Vector2 moveInput;
 
+    private Vector2 aimInput;
+    private bool isUsingMouse = false;
+
     public Transform gunTransform;
 
     private void Awake() {
@@ -40,12 +43,27 @@ public class PlayerController : MonoBehaviour
 
     private void Update() {
         Shoot();
+
+        if (isUsingMouse){
+
+        } else {
+
+        }
     }
 
     private void Shoot() {
         if (controls.Player.Shoot.triggered){
-            //Debug.Log("ammu nappula toimii");
+            Debug.Log("ammu nappula toimii");
             GameObject bullet = BulletPoolManager.Instance.GetBullet();
+            bullet.transform.position = gunTransform.position;
+            bullet.transform.rotation = gunTransform.rotation;
         }
+    }
+
+    private bool UsingMouse() {
+        if (Mouse.current.delta.ReadValue().sqrMagnitude > 0.1){
+            return true;
+        }
+        return false;
     }
 }
