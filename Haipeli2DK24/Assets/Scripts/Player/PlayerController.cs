@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
 
     private Vector2 aimInput;
-    private bool isUsingMouse = false;
+   // private bool isUsingMouse = false;
 
     public Transform gunTransform;
 
@@ -44,8 +45,8 @@ public class PlayerController : MonoBehaviour
     private void Update() {
         Shoot();
 
-        if (isUsingMouse){
-
+        if (UsingMouse()){
+            AimWithMouse();
         } else {
 
         }
@@ -65,5 +66,21 @@ public class PlayerController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void AimWithMouse() {
+        aimInput = controls.Player.Aim.ReadValue<Vector2>();
+
+        if (aimInput.sqrMagnitude > 0.1){
+            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseWorldPosition.current.position.ReadValue());
+            mouseWorldPosition.z = 0;
+
+            Vector2 aimDirection = (mouseWorldPosition - gunTransform.position).normalized;
+
+            aimDirection.y = -aimDirection.y;
+            
+            float angle = (Mathf.Atan2(aimDirection.x, aimDirection.y)) * Mathf.Rad2Deg;
+            gunTransform.rotation = Quaternion.Euler(0, 0, angle);
+        }
     }
 }
