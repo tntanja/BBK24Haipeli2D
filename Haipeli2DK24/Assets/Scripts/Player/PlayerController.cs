@@ -72,8 +72,15 @@ public class PlayerController : MonoBehaviour
         aimInput = controls.Player.Aim.ReadValue<Vector2>();
 
         if (aimInput.sqrMagnitude > 0.1){
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseWorldPosition.current.position.ReadValue());
-            mouseWorldPosition.z = 0;
+            
+            Vector3 mouseScreenPosition = Mouse.current.position.ReadValue();
+            mouseScreenPosition.z = Camera.main.transform.position.z; // Ensure the z-coordinate is set to the camera's z-coordinate
+            
+            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+            mouseWorldPosition.z = 0; // Set the z-coordinate to zero (or whatever value is appropriate for your game)
+
+            // Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseWorldPosition.current.position.ReadValue());
+            // mouseWorldPosition.z = 0;
 
             Vector2 aimDirection = (mouseWorldPosition - gunTransform.position).normalized;
 
