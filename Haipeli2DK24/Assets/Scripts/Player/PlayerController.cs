@@ -44,12 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update() {
         Shoot();
-
-        if (UsingMouse()){
-            AimWithMouse();
-        } else {
-
-        }
+        Aim();
     }
 
     private void Shoot() {
@@ -68,25 +63,21 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    private void AimWithMouse() {
+    private void Aim() {
         aimInput = controls.Player.Aim.ReadValue<Vector2>();
 
         if (aimInput.sqrMagnitude > 0.1){
-            
-            Vector3 mouseScreenPosition = Mouse.current.position.ReadValue();
-            mouseScreenPosition.z = Camera.main.transform.position.z; // Ensure the z-coordinate is set to the camera's z-coordinate
-            
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
-            mouseWorldPosition.z = 0; // Set the z-coordinate to zero (or whatever value is appropriate for your game)
+            Vector2 aimDirection;
 
-            // Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseWorldPosition.current.position.ReadValue());
-            // mouseWorldPosition.z = 0;
+            if (UsingMouse()){
+                Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+                mouseWorldPosition.z = 0;
+                aimDirection = mouseWorldPosition - gunTransform.position;
+            } else {
+                aimDirection = aimInput;
+            }
 
-            Vector2 aimDirection = (mouseWorldPosition - gunTransform.position).normalized;
-
-            aimDirection.y = -aimDirection.y;
-            
-            float angle = (Mathf.Atan2(aimDirection.x, aimDirection.y)) * Mathf.Rad2Deg;
+            float angle = (Mathf.Atan2(aimDirection.x, -aimDirection.y)) * Mathf.Rad2Deg;
             gunTransform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
