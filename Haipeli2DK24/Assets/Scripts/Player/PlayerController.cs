@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
     }
 
+    private void Start() {
+        GameManager.Instance.PlayerController = this;
+    }
+
     // kun objekti on aktiivinen
     private void OnEnable() {
         controls.Enable();      // aktivoi input controllsin
@@ -32,7 +36,20 @@ public class PlayerController : MonoBehaviour
         controls.Disable();     // pysäyttää input controllsin
     }
 
+    private void Update() {
+        if (CheckGameState() == false) {
+            return;
+        }
+
+        Shoot();
+        Aim();
+    }
+
     private void FixedUpdate() {
+        if(CheckGameState() == false) {
+            return;
+        } 
+
         Move();
     }
 
@@ -40,11 +57,6 @@ public class PlayerController : MonoBehaviour
         moveInput = controls.Player.Move.ReadValue<Vector2>();
         Vector2 movement = new Vector2(moveInput.x, moveInput.y) * moveSpeed * Time.fixedDeltaTime;
         body.MovePosition(body.position + movement);
-    }
-
-    private void Update() {
-        Shoot();
-        Aim();
     }
 
     private bool CheckGameState() {
