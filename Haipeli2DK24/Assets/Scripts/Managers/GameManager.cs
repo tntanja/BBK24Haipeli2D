@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeState(GameState newState){
+    public void ChangeGameState(GameState newState){
         currentState = newState;
     }
 

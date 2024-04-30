@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Start() {
-        GameManager.Instance.PlayerController = this;
+        GameManager.Instance.getPlayer = this;
     }
 
     // kun objekti on aktiivinen
