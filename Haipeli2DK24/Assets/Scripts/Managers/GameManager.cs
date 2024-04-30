@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
         } else {
             Destroy(gameObject);
         }
+
+        controls = new Master();
     }
 
     private void OnEnable() {
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void PauseGame() {
         if (controls.Game.Pause.triggered) {
+            Debug.Log("pause nappula");
             if(IsGamePlay()) {
                 ChangeGameState(GameState.Pause);
             } else {
