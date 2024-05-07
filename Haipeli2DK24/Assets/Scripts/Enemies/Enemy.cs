@@ -36,5 +36,8 @@ public class Enemy : MonoBehaviour
         if(playerTransform == null) {
             return;
         }
+
+        Vector2 direction = (playerTransform.position - transform.position).normalized;
+        body.MovePosition(body.position + direction * currentSpeed * Time.fixedDeltaTime);
     }
 }

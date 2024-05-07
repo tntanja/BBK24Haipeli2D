@@ -27,4 +27,8 @@ public class Bullet : MonoBehaviour
             BulletPoolManager.Instance.ReturnBullet(gameObject);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        Debug.Log("osui " + collision.gameObject);
+    }
 }
