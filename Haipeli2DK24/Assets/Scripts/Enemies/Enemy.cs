@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     
     private float currentSpeed = 3f;
@@ -39,5 +39,12 @@ public class Enemy : MonoBehaviour
 
         Vector2 direction = (playerTransform.position - transform.position).normalized;
         body.MovePosition(body.position + direction * currentSpeed * Time.fixedDeltaTime);
+    }
+
+    public void TakeDamage(int damage){
+        Debug.Log("osui " + damage);
+    }
+    public void Die(){
+        Debug.Log("");
     }
 }

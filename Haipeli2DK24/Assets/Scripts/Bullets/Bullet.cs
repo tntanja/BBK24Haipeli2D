@@ -29,6 +29,13 @@ public class Bullet : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        Debug.Log("osui " + collision.gameObject);
+       // Debug.Log("osui " + collision.gameObject);
+
+       IDamageable damageable = collision.GetComponent<IDamageable>();
+
+       if(damageable != null){
+            damageable.TakeDamage(1);
+            BulletPoolManager.Instance.ReturnBullet(gameObject);
+       }
     }
 }
